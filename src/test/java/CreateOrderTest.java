@@ -1,4 +1,3 @@
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static io.restassured.RestAssured.given;
@@ -16,7 +15,7 @@ import io.restassured.response.Response;
 
 @RunWith(Parameterized.class)
 public class CreateOrderTest {
-    private final OrderCreationDTO creationDTO;
+    private OrderCreationDTO creationDTO;
 
     public CreateOrderTest(OrderCreationDTO creationDTO) {
         this.creationDTO = creationDTO;
@@ -25,13 +24,13 @@ public class CreateOrderTest {
     @Parameterized.Parameters
     public static Object[][] getData() {
         return new Object[][]{
-                {new OrderCreationDTO("akbooch@yandex.ru", "Uchiha", "Konoha, 142 apt.", 4,
-                "+7 800 355 35 35", 5, "2020-06-06", "Saske, come back to Konoha", List.of("BLACK"))},
-                {new OrderCreationDTO("akbooch@yandex.ru", "Uchiha", "Konoha, 142 apt.", 4,
-                        "+7 800 355 35 35", 5, "2020-06-06", "Saske, come back to Konoha",
-                        List.of("BLACK", "GREY"))},
-                {new OrderCreationDTO("akbooch@yandex.ru", "Uchiha", "Konoha, 142 apt.", 4,
-                        "+7 800 355 35 35", 5, "2020-06-06", "Saske, come back to Konoha", null)}};
+            {new OrderCreationDTO("akbooch@yandex.ru", "Uchiha", "Konoha, 142 apt.", 4, "+7 800 355 35 35", 5,
+                                      "2020-06-06", "Saske, come back to Konoha", List.of("BLACK"))},
+            {new OrderCreationDTO("akbooch@yandex.ru", "Uchiha", "Konoha, 142 apt.", 4, "+7 800 355 35 35", 5,
+                                      "2020-06-06", "Saske, come back to Konoha", List.of("BLACK", "GREY"))},
+            {new OrderCreationDTO("akbooch@yandex.ru", "Uchiha", "Konoha, 142 apt.", 4, "+7 800 355 35 35", 5,
+                                      "2020-06-06", "Saske, come back to Konoha", null)}
+        };
     }
 
     @Before

@@ -29,11 +29,24 @@ public class CreateCourierTest {
     @DisplayName("Can not create two similar couriers")
     public void cannotCreateSimilarCouriers() {
         CourierCreationDTO courier = new CourierCreationDTO("akbooch@yandex.ru", "1234", "saske");
-        given().header("Content-type", "application/json").body(courier).post("/api/v1/courier");
-        given().header("Content-type", "application/json").body(courier).post("/api/v1/courier").then().assertThat()
-                .statusCode(equalTo(409)).and().body("message", notNullValue());
+        CourierAPI.createCourier(courier);
+        CourierAPI.createCourier(courier).then().assertThat().statusCode(equalTo(409)).and()
+                .body("message", notNullValue());
 
         CourierAPI.deleteCourier(CourierLoginDTO.fromCourierCreationDTO(courier));
+    }
+
+    @Test
+    @DisplayName("Can not create couriers with the same login")
+    public void cannotCreateCouriersWithSameLogin() {
+        final String login = "akbooch@yandex.ru";
+        CourierCreationDTO firstCourier = new CourierCreationDTO(login, "1234", "saske");
+        CourierCreationDTO secondCourier = new CourierCreationDTO(login, "5678", "naruto");
+        CourierAPI.createCourier(firstCourier);
+        CourierAPI.createCourier(secondCourier).then().assertThat().statusCode(equalTo(409)).and()
+                .body("message", notNullValue());
+
+        CourierAPI.deleteCourier(CourierLoginDTO.fromCourierCreationDTO(firstCourier));
     }
 
     @Test
@@ -42,6 +55,7 @@ public class CreateCourierTest {
         CourierCreationDTO courier = new CourierCreationDTO("akbooch@yandex.ru", null, "saske");
         given().header("Content-type", "application/json").body(courier).post("/api/v1/courier").then().assertThat()
                 .statusCode(equalTo(400)).and().body("message", notNullValue());
+        ;
     }
 
     @Test
@@ -50,5 +64,6 @@ public class CreateCourierTest {
         CourierCreationDTO courier = new CourierCreationDTO(null, "1234", "saske");
         given().header("Content-type", "application/json").body(courier).post("/api/v1/courier").then().assertThat()
                 .statusCode(equalTo(400)).and().body("message", notNullValue());
+        ;
     }
 }

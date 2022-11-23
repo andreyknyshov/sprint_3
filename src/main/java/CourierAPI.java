@@ -1,6 +1,7 @@
 import static io.restassured.RestAssured.given;
 
 import io.qameta.allure.Step;
+import io.restassured.response.Response;
 
 public class CourierAPI {
     @Step("Get courier's id")
@@ -17,7 +18,7 @@ public class CourierAPI {
     }
 
     @Step("Create a new courier")
-    public static void createCourier(CourierCreationDTO creationDTO) {
-        given().header("Content-type", "application/json").body(creationDTO).post("/api/v1/courier");
+    public static Response createCourier(CourierCreationDTO creationDTO) {
+        return given().header("Content-type", "application/json").body(creationDTO).post("/api/v1/courier");
     }
 }
